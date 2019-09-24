@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">EndevinaElNumero</string>
+    <string name="botoEndevina">Endevina el número</string>
+    <string name="hintTextView">Introdueix un número del 1 al 100</string>
+    <string name="reglesJoc">Has d\'introduir un número de l\'1 al 100.</string>
+    <string name="reglesJoc2">Si l\'endevines guanyes</string>
+</resources>
