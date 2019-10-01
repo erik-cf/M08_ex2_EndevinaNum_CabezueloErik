@@ -7,4 +7,7 @@
     <string name="reglesJoc" formatted="true">
         Introdueix un número de l\'1 al 100.\nSi l\'endevines guanyes.
     </string>
+    <string name="accept">Acceptar</string>
+    <string name="enteredRanking">Enhorabona, has superat un record!</string>
+    <string name="cancel">Cancelar</string>
 </resources>

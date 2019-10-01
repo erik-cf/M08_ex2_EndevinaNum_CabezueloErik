@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     // Declarem els components que haurem de codificar.
     EditText eTNumero;
     Button b;
+    int intentos = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +31,15 @@ public class MainActivity extends AppCompatActivity {
                     eTNumero.setText("");
                 }else {
                     if (numIntroduit == numRandom) {
-
+                        intentos++;
+                        Toast.makeText(MainActivity.this, "Has endevinat el número!", Toast.LENGTH_LONG).show();
                     } else if (numIntroduit < numRandom) {
                         Toast.makeText(MainActivity.this, "El número que busquem es més gran que el que has introduit.", Toast.LENGTH_LONG).show();
+                        intentos++;
                         eTNumero.setText("");
                     } else {
                         Toast.makeText(MainActivity.this, "El número que busquem es més petit que el que has introduit.", Toast.LENGTH_LONG).show();
+                        intentos++;
                         eTNumero.setText("");
                     }
                 }
