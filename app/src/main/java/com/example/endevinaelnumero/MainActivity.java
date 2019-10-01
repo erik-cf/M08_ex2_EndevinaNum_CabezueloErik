@@ -27,18 +27,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int numIntroduit = Integer.parseInt(eTNumero.getText().toString());
                 if(numIntroduit < 1 || numIntroduit > 100){
-                    Toast.makeText(MainActivity.this, "Has de ficar un número entre 1 i 100!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, R.string.outOfRangeNum, Toast.LENGTH_LONG).show();
                     eTNumero.setText("");
                 }else {
                     if (numIntroduit == numRandom) {
                         intentos++;
-                        Toast.makeText(MainActivity.this, "Has endevinat el número!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, R.string.winnerToast, Toast.LENGTH_LONG).show();
                     } else if (numIntroduit < numRandom) {
-                        Toast.makeText(MainActivity.this, "El número que busquem es més gran que el que has introduit.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, R.string.biggerNum, Toast.LENGTH_LONG).show();
                         intentos++;
                         eTNumero.setText("");
                     } else {
-                        Toast.makeText(MainActivity.this, "El número que busquem es més petit que el que has introduit.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, R.string.smallerNum, Toast.LENGTH_LONG).show();
                         intentos++;
                         eTNumero.setText("");
                     }

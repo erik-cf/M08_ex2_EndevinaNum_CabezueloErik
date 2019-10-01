@@ -1,13 +1,20 @@
 <resources>
     <string name="app_name">EndevinaElNumero</string>
-    <string name="logo">¿X?</string>
-    <string name="nomJoc">ENDEVINAFY</string>
+    <string name="logo">¿X? ENDEVINAFY</string>
     <string name="botoEndevina">Endevinafy</string>
     <string name="hintTextView">Introdueix un número.</string>
     <string name="reglesJoc" formatted="true">
         Introdueix un número de l\'1 al 100.\nSi l\'endevines guanyes.
     </string>
     <string name="accept">Acceptar</string>
-    <string name="enteredRanking">Enhorabona, has superat un record!</string>
-    <string name="cancel">Cancelar</string>
+    <string name="newRecord">Enhorabona, has superat un record!</string>
+    <string name="cancel">No desar puntuació</string>
+    <string name="winnerToast">Has endevinat el número!</string>
+    <string name="biggerNum">El numero que busquem és més gran.</string>
+    <string name="smallerNum">El numero que busquem és més petit.</string>
+    <string name="outOfRangeNum">Has de ficar un numero entre l\'1 i el 100!</string>
+    <string name="enteredRanking">Has aconseguit entrar en el ranking!</string>
+    <string name="textEnterYourName">Introdueix el teu nom per desar-ho</string>
+    <string name="enterName">Introdueix el nom</string>
+
 </resources>

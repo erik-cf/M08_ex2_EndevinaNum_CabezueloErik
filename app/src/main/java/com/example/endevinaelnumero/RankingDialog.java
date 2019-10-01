@@ -14,7 +14,7 @@ public class RankingDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder dialeg = new AlertDialog.Builder(getActivity());
 
-        dialeg.setMessage(R.string.enteredRanking).setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+        dialeg.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
