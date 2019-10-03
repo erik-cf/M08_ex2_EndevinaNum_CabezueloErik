@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#555555"
+    android:background="#222"
     >
 
     <TextView
@@ -16,7 +16,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/enteredRanking"
         android:textAlignment="center"
-        android:textColor="#CCC"
+        android:textColor="#555"
         android:textSize="24sp"
         android:textStyle="bold" />
 
