@@ -1,7 +1,9 @@
 package com.example.endevinaelnumero;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
                     if (numIntroduit == numRandom) {
                         intentos++;
                         Toast.makeText(MainActivity.this, R.string.winnerToast, Toast.LENGTH_LONG).show();
+                        DialogFragment dialeg = new RankingDialog();
+                        dialeg.show(getSupportFragmentManager(), "Has guanyat!");
                     } else if (numIntroduit < numRandom) {
                         Toast.makeText(MainActivity.this, R.string.biggerNum, Toast.LENGTH_LONG).show();
                         intentos++;
