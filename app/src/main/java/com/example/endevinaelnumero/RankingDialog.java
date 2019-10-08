@@ -17,18 +17,23 @@ import android.widget.Toast;
 public class RankingDialog extends DialogFragment {
 
     public EditText eT1;
+    Intent i;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder dialeg = new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.activity_ranking_dialog, null);
+        i = new Intent(getContext(), RankingActivity.class);
+        Bundle args = getArguments();
+        int intentos = args.getInt("intentos");
         eT1 = view.findViewById(R.id.nomGuanyador);
         dialeg.setView(view);
         dialeg.setCancelable(false);
+
         dialeg.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-                Intent i = new Intent(getContext(), RankingActivity.class);
+
                 if(eT1.getText().equals("") ||eT1.getText() == null){
                     i.putExtra("nomEscrit", false);
                 }else{
@@ -40,7 +45,8 @@ public class RankingDialog extends DialogFragment {
         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                i.putExtra("nomEscrit", false);
+                startActivity(i);
             }
         });
         return dialeg.create();

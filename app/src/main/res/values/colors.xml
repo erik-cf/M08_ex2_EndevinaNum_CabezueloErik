@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="mainBG">#262626</color>
-    <color name="buttonTextColor">#777</color>
+
     <color name="buttonBG">#1a1a1a</color>
     <color name="titleColor">#CCC</color>
     <color name="hintColor">#666</color>

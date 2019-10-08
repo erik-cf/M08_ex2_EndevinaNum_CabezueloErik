@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
                         intentos++;
                         Toast.makeText(MainActivity.this, R.string.winnerToast, Toast.LENGTH_LONG).show();
                         DialogFragment dialeg = new RankingDialog();
+                        Bundle args = new Bundle();
+                        args.putInt("intentos", intentos);
+                        dialeg.setArguments(args);
                         dialeg.show(getSupportFragmentManager(), "Has guanyat!");
                     } else if (numIntroduit < numRandom) {
                         Toast.makeText(MainActivity.this, R.string.biggerNum, Toast.LENGTH_LONG).show();

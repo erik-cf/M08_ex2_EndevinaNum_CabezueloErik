@@ -7,7 +7,7 @@
     </style>
 
     <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/buttonTextColor</item>
+        <item name="colorAccent">@color/titleColor</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:background">@color/buttonBG</item>
     </style>

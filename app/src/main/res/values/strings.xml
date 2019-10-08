@@ -20,4 +20,7 @@
     <string name="textEnterYourName">Introdueix el teu nom per desar-ho</string>
     <string name="enterName">Introdueix el nom</string>
 
+    <!-- RankingActivity -->
+    <string name="rankingTitle">¿X? RANKING</string>
+
 </resources>

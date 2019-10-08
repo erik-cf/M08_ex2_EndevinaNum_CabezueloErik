@@ -15,7 +15,7 @@
         android:padding="15dp"
         android:text="@string/botoEndevina"
         android:background="@color/buttonBG"
-        android:textColor="@color/buttonTextColor"
+        android:textColor="@color/titleColor"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
