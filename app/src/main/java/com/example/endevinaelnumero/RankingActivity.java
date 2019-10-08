@@ -20,13 +20,18 @@ public class RankingActivity extends AppCompatActivity {
         boolean nomEscrit = args.getBoolean("nomEscrit");
         if(nomEscrit){
             String nom = args.getString("nomGuanyador");
-            escriuNomFitxer(nom, intentos);
+            int intentos = args.getInt("intentos");
+            try {
+                escriuNomFitxer(nom, intentos);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void escriuNomFitxer(String nom, int intentos) throws FileNotFoundException {
         OutputStreamWriter osw = new OutputStreamWriter(openFileOutput("rankingPuntuacions", Context.MODE_APPEND));
-        
+
     }
 
     public boolean onSupportNavigateUp() {
