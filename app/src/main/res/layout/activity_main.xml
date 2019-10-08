@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#222222">
+    android:background="@color/mainBG">
 
     <Button
         android:id="@+id/button"
@@ -14,8 +14,8 @@
         android:layout_marginTop="36dp"
         android:padding="15dp"
         android:text="@string/botoEndevina"
-        android:background="#555"
-        android:textColor="#ccc"
+        android:background="@color/buttonBG"
+        android:textColor="@color/buttonTextColor"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,8 +30,8 @@
         android:hint="@string/hintTextView"
         android:inputType="number"
         android:textSize="24sp"
-        android:textColorHint="#666666"
-        android:textColor="#CCCCCC"
+        android:textColorHint="@color/hintColor"
+        android:textColor="@color/contentColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reglesJoc" />
@@ -44,7 +44,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/reglesJoc"
         android:textSize="24sp"
-        android:textColor="#999"
+        android:textColor="@color/contentColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoApp" />
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:text="@string/logo"
-        android:textColor="#CCC"
+        android:textColor="@color/titleColor"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

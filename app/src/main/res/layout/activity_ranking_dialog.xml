@@ -3,8 +3,10 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#222"
+    android:background="@color/mainBG"
     >
+
+
 
     <TextView
         android:id="@+id/dialogTitle"
@@ -16,7 +18,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/enteredRanking"
         android:textAlignment="center"
-        android:textColor="#555"
+        android:textColor="@color/titleColor"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -30,5 +32,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:hint="@string/enterName" />
+        android:hint="@string/enterName"
+        android:textColorHint="@color/hintColor"
+        android:textColor="@color/contentColor" />
+
 </LinearLayout>
