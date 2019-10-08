@@ -26,6 +26,7 @@ public class RankingDialog extends DialogFragment {
         i = new Intent(getContext(), RankingActivity.class);
         Bundle args = getArguments();
         int intentos = args.getInt("intentos");
+        i.putExtra("intentos", intentos);
         eT1 = view.findViewById(R.id.nomGuanyador);
         dialeg.setView(view);
         dialeg.setCancelable(false);
