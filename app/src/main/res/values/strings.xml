@@ -22,5 +22,6 @@
 
     <!-- RankingActivity -->
     <string name="rankingTitle">¿X? RANKING</string>
+    <string name="nomFitxer">rankingPuntuacions.txt</string>
 
 </resources>
