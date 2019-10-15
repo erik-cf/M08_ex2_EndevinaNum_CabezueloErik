@@ -18,11 +18,12 @@ public class MainActivity extends AppCompatActivity {
     EditText eTNumero;
     Button b;
     int intentos = 0;
+    int numRandom;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final int numRandom = (int) ((Math.random() * 1) + 1);
+        numRandom = (int) ((Math.random() * 100) + 1);
         eTNumero = findViewById(R.id.eTNumero);
         b = findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
@@ -63,5 +64,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    protected void onResume() {
+        super.onResume();
+        numRandom = (int) ((Math.random() * 100) + 1);
     }
 }
