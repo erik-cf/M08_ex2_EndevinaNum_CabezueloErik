@@ -24,7 +24,6 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/fotoPerfil"
         android:layout_toEndOf="@+id/fotoPerfil" />
-    <!-- https://androidstudiofaqs.com/tutoriales/adapter-personalizado-en-android -->
 
     <ImageView
         android:layout_width="wrap_content"

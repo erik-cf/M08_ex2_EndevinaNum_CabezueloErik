@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        numRandom = (int) ((Math.random() * 100) + 1);
+        numRandom = (int) ((Math.random() * 1) + 1);
         eTNumero = findViewById(R.id.eTNumero);
         b = findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        numRandom = (int) ((Math.random() * 100) + 1);
+        numRandom = (int) ((Math.random() * 1) + 1);
     }
 }
