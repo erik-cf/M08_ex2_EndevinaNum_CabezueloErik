@@ -37,7 +37,7 @@ public class RankingDialog extends DialogFragment {
 
                 if(eT1.getText().equals("") ||eT1.getText() == null){
                     i.putExtra("nomEscrit", false);
-                }else{
+                }else {
                     i.putExtra("nomEscrit", true);
                     i.putExtra("nomGuanyador", eT1.getText());
                 }

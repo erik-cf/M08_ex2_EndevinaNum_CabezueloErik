@@ -20,17 +20,14 @@ public class AdapterRecord extends BaseAdapter {
         this.records = records;
     }
 
-    @Override
     public int getCount() {
         return this.records.size();
     }
 
-    @Override
     public Object getItem(int position) {
         return records.get(position);
     }
 
-    @Override
     public long getItemId(int position) {
         return position;
     }
@@ -43,7 +40,7 @@ public class AdapterRecord extends BaseAdapter {
         }
             Record r = new Record();
 
-            TextView nomGuanyador = view.findViewById(R.id.nomGuanyador);
+            TextView nomGuanyador = view.findViewById(R.id.nomRanking);
             nomGuanyador.setText(nomGuanyador.getText() + r.getNomGuanyador());
 
             TextView intentos = view.findViewById(R.id.intentsRanking);
