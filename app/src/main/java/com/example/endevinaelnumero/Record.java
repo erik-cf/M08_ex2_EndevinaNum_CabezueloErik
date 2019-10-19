@@ -3,25 +3,36 @@ package com.example.endevinaelnumero;
 import android.graphics.drawable.Drawable;
 
 public class Record {
-    String nomGuanyador;
-    int intentos;
-    Drawable fotoPerfil;
 
+    // Atributs de la classe Record
+    private String nomGuanyador;
+    private int intentos;
+    private Drawable fotoPerfil;
+
+    /*
+    Constructor buit
+     */
     public Record(){
 
     }
 
+    /*
+    Constructor on se li passa un nom i els intents
+     */
     public Record(String nomGuanyador, int intentos){
         this.nomGuanyador = nomGuanyador;
         this.intentos = intentos;
     }
 
+    /**
+     * Metodes getters and setters
+     */
     public  String getNomGuanyador(){
         return this.nomGuanyador;
     }
 
     public int getIntentos() {
-        return intentos;
+        return this.intentos;
     }
 
     public void setNomGuanyador(String nomGuanyador) {
