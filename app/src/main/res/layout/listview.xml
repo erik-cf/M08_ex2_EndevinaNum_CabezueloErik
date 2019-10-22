@@ -34,11 +34,9 @@
         android:layout_marginTop="2dp"
         android:id="@+id/fotoPerfil"
         android:cropToPadding="false"
-        android:src="@drawable/no_profile_pic_tiny"
         android:layout_alignParentTop="true"
         android:layout_alignBottom="@+id/intentsRanking"
-        android:maxHeight="35dp"
-        android:maxWidth="35dp"
+
         android:adjustViewBounds="true" />
 
 </RelativeLayout>

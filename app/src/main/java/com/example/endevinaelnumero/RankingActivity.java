@@ -1,17 +1,24 @@
 package com.example.endevinaelnumero;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.ListView;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.concurrent.locks.Lock;
 
 public class RankingActivity extends AppCompatActivity {
     // Declarem els objectes que la classe necessitarà
@@ -23,6 +30,9 @@ public class RankingActivity extends AppCompatActivity {
     String nom;
     int intentos;
     Bundle args;
+    File rutaImatgePerfil;
+    String rutaImatgePerfilString;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
 
     /*
@@ -35,10 +45,17 @@ public class RankingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Inicialitzem el File
         f = new File(getFilesDir(), "rankingPuntuacions.txt");
-        // Inicialitzem l'array de Records
-        aLP = new ArrayList<Record>();
         // Truquem al métode que rep els arguments
         repArgs();
+
+        if(nomEscrit) {
+            rutaImatgePerfil = new File(getFilesDir(), "fp_" + nom + String.valueOf((int)(Math.random()*500)) + ".jpg");
+            rutaImatgePerfilString = rutaImatgePerfil.getAbsolutePath();
+            ferFoto();
+
+        }
+        // Inicialitzem l'array de Records
+        aLP = new ArrayList<Record>();
         // Si hi ha un nomEscrit al dialeg vol dir que l'usuari volia entrar al ranking
         if(nomEscrit) {
             try {
@@ -99,6 +116,7 @@ public class RankingActivity extends AppCompatActivity {
             // Escrivim les dades
             fw.write(nom + "\r\n");
             fw.write(intentos + "\r\n");
+            fw.write(rutaImatgePerfilString + "\r\n");
             // Tanquem el FileWriter
             fw.close();
         }
@@ -118,14 +136,16 @@ public class RankingActivity extends AppCompatActivity {
             int intents;
             // Declarem un objecte de Record per a ficar-ho dins l'adapter
             Record r;
+            Bitmap fotoPerfil;
             // Mentre que hi hagi cap cosa per llegir:
             while (br.ready()) {
                 // Guardem la primera linea que es el nom d'usuari a la variable nom
                 nom = br.readLine();
                 // Llegim la següent linia que son els intents
                 intents = Integer.parseInt(br.readLine());
+                fotoPerfil = BitmapFactory.decodeFile(br.readLine());
                 // Inicialitzem l'objecte de Record amb les dades obtenides
-                r = new Record(nom, intents);
+                r = new Record(nom, intents, fotoPerfil);
                 // Fiquem l'objecte dins l'Adapter
                 adapterRecords.add(r);
             }
@@ -169,5 +189,34 @@ public class RankingActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return false;
+    }
+
+    private void ferFoto() {
+        Intent callCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (callCamera.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(callCamera, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    public void onResume(){
+        super.onResume();
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            FileOutputStream fileOutputStream = null;
+
+            try {
+                rutaImatgePerfil.createNewFile();
+                fileOutputStream = new FileOutputStream(rutaImatgePerfil);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Bitmap fotoPerfil = (Bitmap) extras.get("data");
+            fotoPerfil.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+        }
     }
 }

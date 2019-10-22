@@ -26,7 +26,7 @@ public class AdapterRecord extends ArrayAdapter<Record> {
      */
     public View getView(int position, View view, ViewGroup parent) {
         // Creem un nou objecte Record on guardarem cada item del listview
-        Record r = getItem(position);
+        Record record = getItem(position);
         // Si la view no es nula, inflem el layout
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.listview, parent, false);
@@ -34,12 +34,13 @@ public class AdapterRecord extends ArrayAdapter<Record> {
         // Trobem els diferents components del layout del listView
         TextView nomGuanyador = view.findViewById(R.id.nomRanking);
         TextView intentos = view.findViewById(R.id.intentsRanking);
-        ImageView imatge = view.findViewById(R.id.fotoPerfil);
+        ImageView fotoPerfil = view.findViewById(R.id.fotoPerfil);
 
         // Li fiquem text a cada posicio del listView
-        nomGuanyador.setText("NOM D'USUARI: " + r.getNomGuanyador());
-        intentos.setText("NOMBRE D'INTENTS: " + String.valueOf(r.getIntentos()));
-        imatge.setImageDrawable(r.getFotoPerfil());
+        fotoPerfil.setImageBitmap(record.getFotoPerfil());
+        nomGuanyador.setText("NOM D'USUARI: " + record.getNomGuanyador());
+        intentos.setText("NOMBRE D'INTENTS: " + String.valueOf(record.getIntentos()));
+
 
         return view;
 

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         intentos = 0;
-        numRandom = (int) ((Math.random() * 100) + 1);
+        numRandom = (int) ((Math.random() * 1) + 1);
     }
 
     /*
