@@ -1,11 +1,14 @@
 package com.example.endevinaelnumero;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.ListView;
 import java.io.BufferedReader;
@@ -16,8 +19,10 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.concurrent.locks.Lock;
 
 public class RankingActivity extends AppCompatActivity {
@@ -33,6 +38,7 @@ public class RankingActivity extends AppCompatActivity {
     File rutaImatgePerfil;
     String rutaImatgePerfilString;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
 
 
     /*
@@ -217,6 +223,47 @@ public class RankingActivity extends AppCompatActivity {
             }
             Bitmap fotoPerfil = (Bitmap) extras.get("data");
             fotoPerfil.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+        }
+    }
+
+    String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    private void takePhoto() {
+        Intent callCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (callCamera.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException e) {
+                // Error occurred while creating the File
+                e.printStackTrace();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                callCamera.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(callCamera, REQUEST_TAKE_PHOTO);
+            }
         }
     }
 }
