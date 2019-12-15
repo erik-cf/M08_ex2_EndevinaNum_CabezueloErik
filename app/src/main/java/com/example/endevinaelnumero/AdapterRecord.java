@@ -37,7 +37,7 @@ public class AdapterRecord extends ArrayAdapter<Record> {
         ImageView fotoPerfil = view.findViewById(R.id.fotoPerfil);
 
         // Li fiquem text a cada posicio del listView
-        fotoPerfil.setImageBitmap(record.getFotoPerfil());
+        fotoPerfil.setImageURI(record.getFotoPerfil());
         nomGuanyador.setText("NOM D'USUARI: " + record.getNomGuanyador());
         intentos.setText("NOMBRE D'INTENTS: " + String.valueOf(record.getIntentos()));
 

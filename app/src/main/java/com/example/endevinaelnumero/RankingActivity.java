@@ -4,26 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.concurrent.locks.Lock;
+
 
 public class RankingActivity extends AppCompatActivity {
     // Declarem els objectes que la classe necessitarà
@@ -36,9 +36,10 @@ public class RankingActivity extends AppCompatActivity {
     int intentos;
     Bundle args;
     File rutaImatgePerfil;
+    File rutaImatges;
     String rutaImatgePerfilString;
+    Uri photoURI;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_TAKE_PHOTO = 1;
 
 
     /*
@@ -53,43 +54,11 @@ public class RankingActivity extends AppCompatActivity {
         f = new File(getFilesDir(), "rankingPuntuacions.txt");
         // Truquem al métode que rep els arguments
         repArgs();
+        rutaImatges = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-        if(nomEscrit) {
-            rutaImatgePerfil = new File(getFilesDir(), "fp_" + nom + String.valueOf((int)(Math.random()*500)) + ".jpg");
-            rutaImatgePerfilString = rutaImatgePerfil.getAbsolutePath();
-            ferFoto();
 
-        }
-        // Inicialitzem l'array de Records
-        aLP = new ArrayList<Record>();
-        // Si hi ha un nomEscrit al dialeg vol dir que l'usuari volia entrar al ranking
-        if(nomEscrit) {
-            try {
-                // Truquem al metode escriuFitxer
-                escriuFitxer(nom, intentos);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // "Trobem" la listView del layout
-        lv = findViewById(R.id.listView);
-        // Inicialitzem l'adapter donant-li l'arrayList aLP com a parametre
-        adapterRecords = new AdapterRecord(this, aLP);
-
-        try {
-            // Truquem al metode llegeixFitxer per omplir l'adapter
-            llegeixFitxer();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Truquem al metode que ordena l'array pel nombre d'intents
-        ordenaArray();
-        // Li fiquem l'adapter al listView un cop hem terminat de gestionar-ho
-        lv.setAdapter(adapterRecords);
+        if(nomEscrit)
+            takePhoto();
     }
 
     /*
@@ -112,7 +81,7 @@ public class RankingActivity extends AppCompatActivity {
     /*
     Aquest metode escriu les dades al fitxer
      */
-    private void escriuFitxer(String nom, int intentos) throws IOException {
+    private void escriuFitxer() throws IOException {
         // Comprovem si existeix el fitxer abans d'intentar escriure en ell
         if(existeixFitxer()) {
             // Necessitarem un FileWriter per a escriure al fitxer,
@@ -122,7 +91,7 @@ public class RankingActivity extends AppCompatActivity {
             // Escrivim les dades
             fw.write(nom + "\r\n");
             fw.write(intentos + "\r\n");
-            fw.write(rutaImatgePerfilString + "\r\n");
+            fw.write(photoURI.toString() + "\r\n");
             // Tanquem el FileWriter
             fw.close();
         }
@@ -142,16 +111,16 @@ public class RankingActivity extends AppCompatActivity {
             int intents;
             // Declarem un objecte de Record per a ficar-ho dins l'adapter
             Record r;
-            Bitmap fotoPerfil;
-            // Mentre que hi hagi cap cosa per llegir:
+            Uri fitxerUri;
             while (br.ready()) {
                 // Guardem la primera linea que es el nom d'usuari a la variable nom
                 nom = br.readLine();
                 // Llegim la següent linia que son els intents
                 intents = Integer.parseInt(br.readLine());
-                fotoPerfil = BitmapFactory.decodeFile(br.readLine());
+                //Llegim la uri de la foto:
+                fitxerUri = Uri.parse(br.readLine());
                 // Inicialitzem l'objecte de Record amb les dades obtenides
-                r = new Record(nom, intents, fotoPerfil);
+                r = new Record(nom, intents, fitxerUri);
                 // Fiquem l'objecte dins l'Adapter
                 adapterRecords.add(r);
             }
@@ -197,73 +166,80 @@ public class RankingActivity extends AppCompatActivity {
         return false;
     }
 
-    private void ferFoto() {
-        Intent callCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (callCamera.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(callCamera, REQUEST_IMAGE_CAPTURE);
+    private void takePhoto() {
+        // Creem l'Intent de la càmera:
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Si hi ha una aplicació per fer de càmera, seguim, si no, mostrem un Toast:
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            try {
+                // Creem la imatge de 0:
+                rutaImatgePerfil = creaImatge();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            // Si s'ha pogut crear la imatge:
+            if (rutaImatgePerfil != null) {
+                // Agafem la Uri de la imatge per passar-li a l'Intent de la camera
+                // on ha de guardar la imatge:
+                photoURI = FileProvider.getUriForFile(this,
+                        this.getApplicationContext().getPackageName() + ".fileprovider",
+                        rutaImatgePerfil);
+                // Li passem a la càmera on ha de guardar la imatge:
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
+                // Comencem l'Activity de càmera:
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }else{
+            Toast.makeText(this, "Necessites càmera o aplicació de càmera perquè funcioni!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent i) {
+        // Si tot va bé al intent de càmera:
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            try {
+                escriuFitxer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private File creaImatge() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        // Creem un arxiu on guardarem la imatge:
+        File image = File.createTempFile(nom + intentos + timeStamp, ".jpg", rutaImatges);
+        // Assignem el path de la foto (ruta)
+        rutaImatgePerfilString = image.getAbsolutePath();
+        // Retornem la imatge creada:
+        return image;
     }
 
     public void onResume(){
         super.onResume();
+        // Inicialitzem l'array de Records
+        aLP = new ArrayList<Record>();
 
-    }
+        // "Trobem" la listView del layout
+        lv = findViewById(R.id.listView);
+        // Inicialitzem l'adapter donant-li l'arrayList aLP com a parametre
+        adapterRecords = new AdapterRecord(this, aLP);
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            FileOutputStream fileOutputStream = null;
-
-            try {
-                rutaImatgePerfil.createNewFile();
-                fileOutputStream = new FileOutputStream(rutaImatgePerfil);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Bitmap fotoPerfil = (Bitmap) extras.get("data");
-            fotoPerfil.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+        try {
+            // Truquem al metode llegeixFitxer per omplir l'adapter
+            llegeixFitxer();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        // Truquem al metode que ordena l'array pel nombre d'intents
+        ordenaArray();
+        // Li fiquem l'adapter al listView un cop hem terminat de gestionar-ho
+        lv.setAdapter(adapterRecords);
     }
 
-    String currentPhotoPath;
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    private void takePhoto() {
-        Intent callCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (callCamera.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException e) {
-                // Error occurred while creating the File
-                e.printStackTrace();
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                callCamera.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(callCamera, REQUEST_TAKE_PHOTO);
-            }
-        }
-    }
 }

@@ -2,13 +2,14 @@ package com.example.endevinaelnumero;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 public class Record {
 
     // Atributs de la classe Record
     private String nomGuanyador;
     private int intentos;
-    private Bitmap fotoPerfil;
+    private Uri fotoPerfil;
 
     /*
     Constructor buit
@@ -17,7 +18,7 @@ public class Record {
 
     }
 
-    public Record(String nomGuanyador, int intentos, Bitmap fotoPerfil){
+    public Record(String nomGuanyador, int intentos, Uri fotoPerfil){
         this.nomGuanyador = nomGuanyador;
         this.intentos = intentos;
         this.fotoPerfil = fotoPerfil;
@@ -42,11 +43,11 @@ public class Record {
         this.intentos = intentos;
     }
 
-    public Bitmap getFotoPerfil(){
+    public Uri getFotoPerfil(){
         return this.fotoPerfil;
     }
 
-    public void setFotoPerfil(Bitmap fotoPerfil){
+    public void setFotoPerfil(Uri fotoPerfil){
         this.fotoPerfil = fotoPerfil;
     }
 }

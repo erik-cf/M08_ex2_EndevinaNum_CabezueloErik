@@ -3,7 +3,7 @@ package com.example.endevinaelnumero;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,7 +16,8 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     // Declarem els components que haurem de codificar.
     EditText eTNumero;
-    Button b;
+    Button endevinafyButton;
+    Button veureRanking;
     // Declarem les variables que necessita la aplicació si o si
     int intentos;
     int numRandom;
@@ -31,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
         // "Trobem" l'EditText on s'introdueix el numero pel seu ID
         eTNumero = findViewById(R.id.eTNumero);
         // "Trobem" el botó Endevina pel seu ID
-        b = findViewById(R.id.button);
+        endevinafyButton = findViewById(R.id.button);
+        // "Trobem" el botó veure Ranking pel seu ID
+        veureRanking = findViewById(R.id.veureRanking);
         // Truquem al metode que els hi dona un listener als components
         creaListeners();
     }
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         intentos = 0;
-        numRandom = (int) ((Math.random() * 1) + 1);
+        numRandom = (int) ((Math.random() * 100) + 1);
     }
 
     /*
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void creaListeners(){
         // Listener per al boto:
-        b.setOnClickListener(new View.OnClickListener() {
+        endevinafyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Agafem el numero introduit per l'usuari a l'editText
                 numIntroduit = Integer.parseInt(eTNumero.getText().toString());
@@ -98,6 +101,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        veureRanking.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putBoolean("nomEscrit", false);
+                Intent i = new Intent(MainActivity.this, RankingActivity.class);
+                i.putExtras(args);
+                startActivity(i);
+            }
+        });
+
         // Aquest listener fa que funcioni el botó d'OK o l'Enter del teclat com el botó d'endevina
         eTNumero.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -105,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 // Si l'event no és null(es pica cap botó) y si el botó picat es l'enter o el botó es l'okay
                 if((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)){
                     // Truquem al listener del boto
-                    b.callOnClick();
+                    endevinafyButton.callOnClick();
                 }
                 return false;
             }

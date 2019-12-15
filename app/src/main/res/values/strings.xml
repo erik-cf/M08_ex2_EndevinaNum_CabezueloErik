@@ -4,6 +4,7 @@
     <string name="logo">¿X? ENDEVINAFY</string>
     <string name="botoEndevina">Endevinafy</string>
     <string name="hintTextView">Introdueix un número.</string>
+    <string name="veureRanking">Veure el ranking!</string>
     <string name="reglesJoc" formatted="true">
         Introdueix un número de l\'1 al 100.\nSi l\'endevines guanyes.
     </string>
