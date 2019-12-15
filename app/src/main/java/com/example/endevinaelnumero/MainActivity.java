@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Afegim un Listener al botó de Veure Ranking:
         veureRanking.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view) {

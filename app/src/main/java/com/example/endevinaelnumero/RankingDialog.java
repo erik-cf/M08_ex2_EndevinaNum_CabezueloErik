@@ -1,6 +1,5 @@
 package com.example.endevinaelnumero;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.AlertDialog;
@@ -11,8 +10,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.PopupMenu;
-import android.widget.Toast;
 
 public class RankingDialog extends DialogFragment {
 

@@ -18,7 +18,6 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,6 +25,7 @@ import java.util.Date;
 
 
 public class RankingActivity extends AppCompatActivity {
+
     // Declarem els objectes que la classe necessitarà
     File f;
     ArrayList<Record> aLP;
@@ -56,16 +56,16 @@ public class RankingActivity extends AppCompatActivity {
         repArgs();
         rutaImatges = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-
+        // Si s'ha escrit un nom de guanyador, passem a fer-li la foto:
         if(nomEscrit)
             takePhoto();
     }
 
     /*
-    Aquest metode rep els arguments que es passen des del dialeg a aquesta Activity
+    Aquest metode rep els arguments que es passen des de la anterior Activity a aquesta Activity
      */
     private void repArgs(){
-        // Rebem els Extras passats del dialeg al Bundle args
+        // Rebem els Extras
         args = getIntent().getExtras();
         // Agafem el boolea que serveix per saber si s'ha escrit un nom o no per a entrar al record
         nomEscrit = args.getBoolean("nomEscrit");
@@ -79,7 +79,7 @@ public class RankingActivity extends AppCompatActivity {
     }
 
     /*
-    Aquest metode escriu les dades al fitxer
+    Aquest metode escriu les dades al fitxer per després poder-les recuperar i que el Ranking sigui persistent
      */
     private void escriuFitxer() throws IOException {
         // Comprovem si existeix el fitxer abans d'intentar escriure en ell
@@ -166,6 +166,10 @@ public class RankingActivity extends AppCompatActivity {
         return false;
     }
 
+    /*
+    Aquest mètode crida a l'Intent de la càmera, però previament fa unes accions
+    com trucar al mètode que crea l'arxiu d'imatge.
+     */
     private void takePhoto() {
         // Creem l'Intent de la càmera:
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -196,10 +200,15 @@ public class RankingActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    Aquest es el mètode onActivityResult, que s'executa un cop la càmera ha tancat.
+    Es crida automàticament, no s'ha de cridar manualment.
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent i) {
         // Si tot va bé al intent de càmera:
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             try {
+                // Escribim al fitxer les dades del usuari
                 escriuFitxer();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -207,6 +216,9 @@ public class RankingActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    Aquest mètode ens crea la imatge de la foto.
+     */
     private File creaImatge() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         // Creem un arxiu on guardarem la imatge:
@@ -217,6 +229,10 @@ public class RankingActivity extends AppCompatActivity {
         return image;
     }
 
+    /*
+    El mètode onResume, on volem que es carregui l'adapter perquè s'actualitzi cada cop que
+    es carregui aquesta Activity
+     */
     public void onResume(){
         super.onResume();
         // Inicialitzem l'array de Records
