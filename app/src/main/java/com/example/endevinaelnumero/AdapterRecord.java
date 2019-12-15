@@ -2,11 +2,13 @@ package com.example.endevinaelnumero;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +28,7 @@ public class AdapterRecord extends ArrayAdapter<Record> {
      */
     public View getView(int position, View view, ViewGroup parent) {
         // Creem un nou objecte Record on guardarem cada item del listview
-        Record record = getItem(position);
+       final  Record record = getItem(position);
         // Si la view no es nula, inflem el layout
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.listview, parent, false);
@@ -40,6 +42,15 @@ public class AdapterRecord extends ArrayAdapter<Record> {
         fotoPerfil.setImageURI(record.getFotoPerfil());
         nomGuanyador.setText("NOM D'USUARI: " + record.getNomGuanyador());
         intentos.setText("NOMBRE D'INTENTS: " + String.valueOf(record.getIntentos()));
+
+        fotoPerfil.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view) {
+                Intent i =  new Intent(getContext(), VeureFotoActivity.class);
+                i.putExtra("photoUri", record.getFotoPerfil().toString());
+                view.getContext().startActivity(i);
+            }
+        });
 
 
         return view;

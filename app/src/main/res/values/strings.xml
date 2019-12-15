@@ -26,4 +26,7 @@
     <string name="username">NOM D\'USUARI: </string>
     <string name="intentosRanking">NOMBRE INTENTS: </string>
 
+    <!-- veureFoto -->
+    <string name="tornarRanking">Tornar al Ranking</string>
+
 </resources>
